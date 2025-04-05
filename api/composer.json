@@ -1,0 +1,17 @@
+{
+    "name": "knowledge-city/test",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "api\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "Brotherbond"
+        }
+    ],
+    "require": {
+        "php": ">=8.3"
+    }
+}

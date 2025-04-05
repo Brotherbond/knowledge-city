@@ -24,6 +24,7 @@ services:
       MYSQL_PASSWORD: test_password
     volumes:
         - ./database/volume:/var/lib/mysql
+        - ./database/migrations:/docker-entrypoint-initdb.d
     hostname: database.cc.localhost
     labels:
       - traefik.tcp.routers.mysql.entrypoints=mysql
@@ -33,12 +34,14 @@ services:
       - 8001:3306
 
   api:
-    image: php:8.3-apache
+    build:
+      context: ./api
     container_name: api
     depends_on:
       - db
     volumes:
       - ./api/:/var/www/html/
+      - ./database/:/var/www/html/database/
     stdin_open: true
     tty: true
     hostname: api.cc.localhost
@@ -53,6 +56,6 @@ services:
       - ./front_end/:/var/www/html/
     stdin_open: true
     tty: true
-    hostname: api.cc.localhost
+    hostname: cc.localhost
     labels:
       - traefik.http.routers.front.rule=Host(`cc.localhost`)
