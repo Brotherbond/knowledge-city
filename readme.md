@@ -29,6 +29,11 @@
 ```
 docker-compose up --build
 ```
+##  Seeding data into database
+
+```
+docker exec -it api php /var/www/html/database/seeding/data_import.php
+```
 
 ## Hosts:
 API host: http://api.cc.localhost

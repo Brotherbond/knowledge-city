@@ -23,7 +23,7 @@ services:
       MYSQL_USER: test_user
       MYSQL_PASSWORD: test_password
     volumes:
-        - ./database/volume:/var/lib/mysql
+        # - ./database/volume:/var/lib/mysql
         - ./database/migrations:/docker-entrypoint-initdb.d
     hostname: database.cc.localhost
     labels:
@@ -42,6 +42,7 @@ services:
     volumes:
       - ./api/:/var/www/html/
       - ./database/:/var/www/html/database/
+      - ./data/:/var/www/html/database/seeding/data
     stdin_open: true
     tty: true
     hostname: api.cc.localhost
