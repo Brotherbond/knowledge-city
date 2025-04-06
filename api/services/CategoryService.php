@@ -118,6 +118,7 @@ class CategoryService
         foreach ($categories as $category) {
             $category['children'] = [];
             $category['depth'] = 0; // Initialize depth for all categories
+            $category['count_of_courses'] = (int)$category['count_of_courses']; // Ensure count is an integer
             $map[$category['id']] = $category;
         }
     
@@ -125,9 +126,16 @@ class CategoryService
         foreach ($map as $id => &$category) {
             $this->calculateCategoryDepth($category, $map);
         }
+        unset($category);
+    
+        // Create a copy of the map to avoid reference issues
+        $mapCopy = [];
+        foreach ($map as $id => $category) {
+            $mapCopy[$id] = $category;
+        }
     
         // Third pass: build the tree (only include categories up to depth 4)
-        foreach ($map as $id => $category) {
+        foreach ($mapCopy as $id => $category) {
             if ($category['parent_id'] === null) {
                 $tree[] = &$map[$id];
             } else if (isset($map[$category['parent_id']]) && $category['depth'] <= 4) {
