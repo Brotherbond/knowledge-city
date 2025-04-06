@@ -5,6 +5,10 @@ namespace api;
 use api\routes\Router;
 use Exception;
 
+// Error handling
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 // Load dependencies
 require_once __DIR__ . '/bootstrap.php';
 
