@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const coursesGrid = document.getElementById('courses-grid');
     const currentCategoryTitle = document.getElementById('current-category');
     const allCoursesCount = document.getElementById('all-courses-count');
+    const allCoursesItem = document.querySelector('[data-id="all"]');
 
     // Initialize the application
-
     async function init() {
         try {
             // Load data
@@ -29,6 +29,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Update all courses count
             allCoursesCount.textContent = allCourses.length;
+            
+            // Add event listener for "All Courses" item
+            if (allCoursesItem) {
+                allCoursesItem.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    selectCategory('all', 'All Courses');
+                });
+            }
 
         } catch (error) {
             console.error('Failed to initialize app:', error);
@@ -37,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     init();
-
 
     function renderCategories(categories, parentElement = categoriesList, level = 0) {
         categories.forEach(category => {
@@ -84,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <img src="${course.preview || 'default-image.jpg'}" alt="${course.name}" class="course-image">
                 </div>
                 <div class="course-content">
-                    <span class="course-category">${course.main_category_name}</span>
+                    <span class="course-category">${course.main_category_name || ''}</span>
                     <h3 class="course-title">${course.name}</h3>
                     <p class="course-description">${course.description || 'No description available.'}</p>
                 </div>
@@ -111,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Update title
         currentCategoryTitle.textContent = categoryId === 'all' ? 'All Courses' : categoryName;
 
-        // Filter courses
         try {
             // Get courses filtered by category
             const courses = categoryId === 'all'
